@@ -1,20 +1,41 @@
+# g for git, so every other command that is not contained in alias can also be simplified
 alias g='git'
+
+# git for mac built-in some alias like git a for git add . but no alias for git add
 alias ga='git add'
 alias ga.='git a'
+
+# git for mac git b is git branch
 alias gb='git b'
+
+# git for mac git c is git commit
 alias gc='git c'
 alias gcm='git commit -m'
 alias gca='git commit --amend'
+
+# git checkout
 alias gck='git ck'
-alias gfo='git fo'
+
+# add branch name after this alias
+alias gfo='git fetch origin'
+
 alias gl='git log'
+
 alias gm='git merge'
+
 alias gp='git pull'
+
 alias gpr='git pull -r'
-alias gplo='git plo'
-alias gpso='git pso'
+
+alias gplo='git pull origin'
+
+alias gpso='git push origin'
+
 alias gs='git s'
+
 alias gd='git diff'
+
 alias gr='git reset'
+
 alias gcl='git clone'
 
