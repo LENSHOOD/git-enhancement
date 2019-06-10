@@ -1,0 +1,3 @@
+[submodule "git-hooks-demo"]
+	path = git-hooks-demo
+	url = git@github.com:LENSHOOD/git-hooks-demo.git
