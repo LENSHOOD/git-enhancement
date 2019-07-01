@@ -10,6 +10,7 @@ alias gb='git branch'
 alias gc='git comiit'
 alias gcm='git commit -m'
 alias gca='git commit --amend'
+alias ga.cm='git add . && git commit -m'
 
 alias gck='git checkout'
 
