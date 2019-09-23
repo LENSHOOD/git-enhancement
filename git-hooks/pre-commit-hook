@@ -1,0 +1,29 @@
+types=("feat" "fix" "docs" "style" "refactor" "test, "chore" "build" "ci" "perf")
+
+# check the three section: header, detail, footer
+IFS='\n\n' read -rd '' -a input_array <<< "$string"
+
+if [ ${#input_array[@]} -gt 3 ]
+    then
+    printf "[COMMIT MESSAGE CHECKER] \n"
+    printf "Too many message sections! (Header, Detail, Footer allowed)"
+    printf "\nAbout conventional commit, see: https://www.conventionalcommits.org"
+    printf "\n"
+    exit 1
+fi
+
+# check header format
+header=${input_array[0]}
+IFS=': ' read -rd '' -a header_array <<< "$header"
+if [ ${#header_array[@]} -ne 2 ]
+    then 
+    printf "[COMMIT MESSAGE CHECKER] \n"
+    printf "Wrong header format, which should be: {type}({scope}): {description}"
+    printf "\nAbout conventional commit, see: https://www.conventionalcommits.org"
+    printf "\n"
+    exit 1
+fi
+
+# check type
+
+# check header length
