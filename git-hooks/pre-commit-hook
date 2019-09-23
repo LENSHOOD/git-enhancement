@@ -1,7 +1,14 @@
-types=("feat" "fix" "docs" "style" "refactor" "test, "chore" "build" "ci" "perf")
+#!/bin/bash
+
+# initial info
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+allowed_types=("feat" "fix" "docs" "style" "refactor" "test, "chore" "build" "ci" "perf")
 
 # check the three section: header, detail, footer
-IFS='\n\n' read -rd '' -a input_array <<< "$string"
+IFS='\n\n' read -rd '' -a input_array <<< "$COMMIT_MSG_FILE"
 
 if [ ${#input_array[@]} -gt 3 ]
     then
@@ -25,5 +32,32 @@ if [ ${#header_array[@]} -ne 2 ]
 fi
 
 # check type
+containsElement () {
+  local e match="$1"
+  shift
+  for e; do [[ "$e" == "$match" ]] && return 0; done
+  return 1
+}
+
+is_type_allowed=containsElement "${header_array[0]}" "${allowed_types[@]}"
+if [ is_type_allowed -ne 0 ]
+    then
+    printf "[COMMIT MESSAGE CHECKER] \n"
+    printf "Wrong type detected! "
+    printf "Allowed: feat, fix, docs, style, refactor, test, chore, build, ci, perf."
+    printf "\nAbout conventional commit, see: https://www.conventionalcommits.org"
+    printf "\n"
+    exit 1
+fi
 
 # check header length
+if [ ${#header} -gt 72 ]
+    then
+    printf "[COMMIT MESSAGE CHECKER] \n"
+    printf "Too long header! Header length should be shorter than 72 characters."
+    printf "\nAbout conventional commit, see: https://www.conventionalcommits.org"
+    printf "\n"
+    exit 1
+fi
+
+exit 0
