@@ -5,11 +5,13 @@ COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=$2
 SHA1=$3
 
-allowed_types=("feat" "fix" "docs" "style" "refactor" "test, "chore" "build" "ci" "perf")
+allowed_types=("feat" "fix" "docs" "style" "refactor" "test" "chore" "build" "ci" "perf")
 
 # check the three section: header, detail, footer
-IFS='\n\n' read -rd '' -a input_array <<< "$COMMIT_MSG_FILE"
+MSG=$(cat $COMMIT_MSG_FILE)
+IFS='\n\n' read -rd '' -a input_array <<< "$MSG"
 
+echo MSG $MSG
 if [ ${#input_array[@]} -gt 3 ]
     then
     printf "[COMMIT MESSAGE CHECKER] \n"
@@ -21,6 +23,7 @@ fi
 
 # check header format
 header=${input_array[0]}
+echo header: $header
 IFS=': ' read -rd '' -a header_array <<< "$header"
 if [ ${#header_array[@]} -ne 2 ]
     then 
