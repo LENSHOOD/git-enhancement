@@ -8,10 +8,9 @@ SHA1=$3
 allowed_types=("feat" "fix" "docs" "style" "refactor" "test" "chore" "build" "ci" "perf")
 
 # check the three section: header, detail, footer
-MSG=$(cat $COMMIT_MSG_FILE)
-IFS='\n\n' read -rd '' -a input_array <<< "$MSG"
+MSG=$(cat $COMMIT_MSG_FILE | egrep -v "^#.*")
+IFS=$'\n\n' read -rd '' -a input_array <<< "$MSG"
 
-echo MSG $MSG
 if [ ${#input_array[@]} -gt 3 ]
     then
     printf "[COMMIT MESSAGE CHECKER] \n"
@@ -23,7 +22,6 @@ fi
 
 # check header format
 header=${input_array[0]}
-echo header: $header
 IFS=': ' read -rd '' -a header_array <<< "$header"
 if [ ${#header_array[@]} -ne 2 ]
     then 
@@ -35,15 +33,16 @@ if [ ${#header_array[@]} -ne 2 ]
 fi
 
 # check type
+is_type_allowed=1
 containsElement () {
   local e match="$1"
   shift
-  for e; do [[ "$e" == "$match" ]] && return 0; done
-  return 1
+  for e; do [[ "$e" == "$match" ]] && is_type_allowed=0 && return; done
+  is_type_allowed=1
 }
 
-is_type_allowed=containsElement "${header_array[0]}" "${allowed_types[@]}"
-if [ is_type_allowed -ne 0 ]
+containsElement "${header_array[0]}" "${allowed_types[@]}"
+if [ $is_type_allowed -ne 0 ]
     then
     printf "[COMMIT MESSAGE CHECKER] \n"
     printf "Wrong type detected! "
