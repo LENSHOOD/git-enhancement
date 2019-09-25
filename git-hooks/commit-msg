@@ -7,16 +7,26 @@ SHA1=$3
 
 allowed_types=("feat" "fix" "docs" "style" "refactor" "test" "chore" "build" "ci" "perf")
 
+# set print info
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BROWN='\033[0;33m'
+NC='\033[0m'
+
+printInfo () {
+    printf "${GREEN}[COMMIT MESSAGE CHECKER] \n"
+    printf "${RED}$1"
+    printf "${BROWN}\nAbout conventional commit, see: https://www.conventionalcommits.org"
+    printf "${NC}\n"
+}
+
 # check the three section: header, detail, footer
 MSG=$(cat $COMMIT_MSG_FILE | egrep -v "^#.*")
 IFS=$'\n\n' read -rd '' -a input_array <<< "$MSG"
 
 if [ ${#input_array[@]} -gt 3 ]
     then
-    printf "[COMMIT MESSAGE CHECKER] \n"
-    printf "Too many message sections! (Header, Detail, Footer allowed)"
-    printf "\nAbout conventional commit, see: https://www.conventionalcommits.org"
-    printf "\n"
+    printInfo "Too many message sections! (Header, Detail, Footer allowed)"
     exit 1
 fi
 
@@ -25,10 +35,7 @@ header=${input_array[0]}
 IFS=': ' read -rd '' -a header_array <<< "$header"
 if [ ${#header_array[@]} -ne 2 ]
     then 
-    printf "[COMMIT MESSAGE CHECKER] \n"
-    printf "Wrong header format, which should be: {type}({scope}): {description}"
-    printf "\nAbout conventional commit, see: https://www.conventionalcommits.org"
-    printf "\n"
+    printInfo "Wrong header format, which should be: {type}({scope}): {description}"
     exit 1
 fi
 
@@ -44,21 +51,14 @@ startsWithElement () {
 startsWithElement "${header_array[0]}" "${allowed_types[@]}"
 if [ $is_type_allowed -ne 0 ]
     then
-    printf "[COMMIT MESSAGE CHECKER] \n"
-    printf "Wrong type detected! "
-    printf "Allowed: feat, fix, docs, style, refactor, test, chore, build, ci, perf."
-    printf "\nAbout conventional commit, see: https://www.conventionalcommits.org"
-    printf "\n"
+    printInfo "Wrong type detected!\nAllowed: feat, fix, docs, style, refactor, test, chore, build, ci, perf."
     exit 1
 fi
 
 # check header length
 if [ ${#header} -gt 72 ]
     then
-    printf "[COMMIT MESSAGE CHECKER] \n"
-    printf "Too long header! Header length should be shorter than 72 characters."
-    printf "\nAbout conventional commit, see: https://www.conventionalcommits.org"
-    printf "\n"
+    printInfo "Too long header! Header length should be shorter than 72 characters."
     exit 1
 fi
 
