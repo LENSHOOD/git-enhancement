@@ -34,14 +34,14 @@ fi
 
 # check type
 is_type_allowed=1
-containsElement () {
+startsWithElement () {
   local e match="$1"
   shift
-  for e; do [[ "$e" == "$match" ]] && is_type_allowed=0 && return; done
+  for e; do [[ "$match" == "$e"* ]] && is_type_allowed=0 && return; done
   is_type_allowed=1
 }
 
-containsElement "${header_array[0]}" "${allowed_types[@]}"
+startsWithElement "${header_array[0]}" "${allowed_types[@]}"
 if [ $is_type_allowed -ne 0 ]
     then
     printf "[COMMIT MESSAGE CHECKER] \n"
