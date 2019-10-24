@@ -22,3 +22,4 @@ More detial please see the readme file in the git-alias dir.
 
   I use gradle task to do that, and I'll provide pure shell script solution later...
 
+> Check the article series of [*Clean Git*](https://lenshood.github.io/2019/04/08/keep-git-branch-clean/) at my personal blog. 
