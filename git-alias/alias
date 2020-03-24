@@ -7,7 +7,7 @@ alias ga.='git add .'
 alias gb='git branch'
 
 # gcm and gca is very useful
-alias gc='git comiit'
+alias gc='git commit'
 alias gcm='git commit -m'
 alias gca='git commit --amend'
 alias ga.cm='git add . && git commit -m'
