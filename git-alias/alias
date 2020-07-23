@@ -35,3 +35,5 @@ alias gr='git reset'
 
 alias gcl='git clone'
 
+alias gst='git stash'
+alias gstp='git stash pop'
