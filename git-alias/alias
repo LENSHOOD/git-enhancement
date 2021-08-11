@@ -37,3 +37,7 @@ alias gcl='git clone'
 
 alias gst='git stash'
 alias gstp='git stash pop'
+
+# rebase pull all sub-directories
+alias gpr-all='find . -type d -depth 1 -exec git --git-dir={}/.git --work-tree=$PWD/{} pull origin master -r \;'
+
